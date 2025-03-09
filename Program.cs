@@ -1,26 +1,39 @@
+using Azure.AI.DocumentIntelligence;
+using Azure;
+using Azure.Search.Documents;
+using Azure.Storage.Blobs;
+using Azure.AI.OpenAI;
+using PdfAgent.Controllers;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+// Add controllers
+builder.Services.AddControllers();
 
+// Configure Swagger/OpenAPI (opzionale, utile per test API)
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Registrazione Servizi
+builder.Services.AddSingleton<PdfIndexerService>();
+
+// Configurazioni aggiuntive (opzionale, per semplificare accesso IConfiguration)
+var config = builder.Configuration;
+
+// Build dell'applicazione
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Configure HTTP request pipeline (middleware)
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
-app.UseRouting();
-
 app.UseAuthorization();
 
-app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapControllers();
 
 app.Run();
