@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PDFAnalyzerApi.Models;
-using PDFAnalyzerApi.Services;
+using PdfAgent.Models;
+using PdfAgent.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace PDFAnalyzerApi.Controllers
+namespace PdfAgent.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

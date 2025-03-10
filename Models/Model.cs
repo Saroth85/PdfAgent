@@ -1,17 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using Azure.Search.Documents.Indexes;
+using Azure.Search.Documents.Indexes.Models;
 
-namespace PDFAnalyzerApi.Models
+namespace PdfAgent.Models
 {
     // Modello per l'indice di ricerca
     public class DocumentIndex
     {
+        [SimpleField(IsKey = true, IsFilterable = true)]
         public string Id { get; set; }
+        
+        [SearchableField(IsSortable = true)]
         public string FileName { get; set; }
+        
+        [SimpleField(IsFilterable = false)]
         public string FileUrl { get; set; }
+        
+        [SearchableField(IsFilterable = true)]
         public string Content { get; set; }
+        
+        [SearchableField(IsFilterable = true)]
         public string Entities { get; set; }
+        
+        [SearchableField(IsFilterable = true)]
         public string KeyPhrases { get; set; }
+        
+        [SimpleField(IsFilterable = true, IsSortable = true)]
         public DateTime UploadDate { get; set; }
     }
 
@@ -45,7 +60,7 @@ namespace PDFAnalyzerApi.Models
     public class SearchResponse
     {
         public long TotalCount { get; set; }
-        public List<SearchResult> Results { get; set; }
+        public List<SearchResult> Results { get; set; } = new List<SearchResult>();
 
         public class SearchResult
         {

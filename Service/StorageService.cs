@@ -1,13 +1,13 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
-using PDFAnalyzerApi.Models;
+using PdfAgent.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace PDFAnalyzerApi.Services
+namespace PdfAgent.Services
 {
     public interface IStorageService
     {

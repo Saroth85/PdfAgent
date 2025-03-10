@@ -3,7 +3,8 @@ using Azure.AI.FormRecognizer.DocumentAnalysis;
 using Azure.Search.Documents.Indexes;
 using Azure.Storage.Blobs;
 using Microsoft.OpenApi.Models;
-using PDFAnalyzerApi.Services;
+using PdfAgent.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "PDF Analyzer API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "PDF Agent API", Version = "v1" });
 });
 
 // Configura CORS

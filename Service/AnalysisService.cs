@@ -1,13 +1,11 @@
 ﻿using Azure;
-using Azure.AI.DocumentIntelligence;
 using Azure.AI.FormRecognizer.DocumentAnalysis;
-using PDFAnalyzerApi.Models;
+using PdfAgent.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace PDFAnalyzerApi.Services
+namespace PdfAgent.Services
 {
     public interface IAnalysisService
     {
@@ -35,12 +33,22 @@ namespace PDFAnalyzerApi.Services
                     "prebuilt-document",
                     new Uri(fileUrl));
 
-                Azure.AI.FormRecognizer.DocumentAnalysis.AnalyzeResult result = operation.Value;
+                var result = operation.Value;
 
                 // Estrai testo e metadati
-                string content = string.Join(" ", result.Content);
-               // var entities = result.?.Select(e => e.Category + ": " + e.Content).ToList() ?? new List<string>();
-               // var keyPhrases = result.KeyPhrases?.ToList() ?? new List<string>();
+                StringBuilder contentBuilder = new StringBuilder();
+
+                // Raccoglie il testo dal risultato
+                if (!string.IsNullOrEmpty(result.Content))
+                {
+                    contentBuilder.Append(result.Content);
+                }
+
+                string content = contentBuilder.ToString();
+
+                // Per estrarre entità e frasi chiave, potresti usare Text Analytics in una implementazione più completa
+                string entities = "";
+                string keyPhrases = "";
 
                 // Crea l'oggetto DocumentIndex
                 var document = new DocumentIndex
@@ -49,8 +57,8 @@ namespace PDFAnalyzerApi.Services
                     FileName = fileName,
                     FileUrl = fileUrl,
                     Content = content,
-                    Entities = "",
-                    KeyPhrases = "",
+                    Entities = entities,
+                    KeyPhrases = keyPhrases,
                     UploadDate = DateTime.UtcNow
                 };
 

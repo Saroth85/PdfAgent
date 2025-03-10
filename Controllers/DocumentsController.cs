@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PDFAnalyzerApi.Models;
-using PDFAnalyzerApi.Services;
+using PdfAgent.Models;
+using PdfAgent.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace PDFAnalyzerApi.Controllers
+namespace PdfAgent.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -38,6 +38,24 @@ namespace PDFAnalyzerApi.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> UploadDocument(IFormFile file)
         {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest(new UploadResponse
+                {
+                    Success = false,
+                    Message = "Nessun file fornito o file vuoto."
+                });
+            }
+
+            if (!file.ContentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest(new UploadResponse
+                {
+                    Success = false,
+                    Message = "Il file deve essere un PDF."
+                });
+            }
+
             try
             {
                 var response = await _storageService.UploadDocumentAsync(file);
